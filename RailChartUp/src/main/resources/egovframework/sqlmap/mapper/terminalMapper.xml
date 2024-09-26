@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.wizbrain.apRailroad.terminal.mapper.TerminalMapper">
+<!-- 
+수정일           수정자         수정내용 
+========= ======= ================================================= 
+2020.07.23 정다빈     최초 생성 
+-->
+
+	<!-- 전체 또는 특정 차상단말기 조회 -->
+	<resultMap type="terminalVO" id="selectTerminal">
+		<result property="idx" 		column=	"IDX"	/>
+		<result property="trainNum"	column=	"TRAIN_NUM"	/>
+		<result property="fIp" 		column=	"F_IP" />
+		<result property="tIp" 		column=	"T_IP" />
+		<result property="carCnt" 	column=	"CAR_CNT" />
+		<result property="raceYn" 	column=	"RACE_YN"/>
+	</resultMap>
+	<select id="selectTerminal" parameterType="terminalVO" resultMap="selectTerminal">
+		SELECT 
+			A.idx AS idx
+			,A.t1 AS train_num, B.t2
+			,A.car_cnt AS car_cnt
+			,if(B.t2 IN(A.t1),"운행중","미운행") AS RACE_YN
+		FROM
+		(
+			SELECT idx,train_num AS t1,CAR_CNT FROM tcms_info GROUP BY train_num ORDER BY idx ASC 
+		) A
+		LEFT OUTER JOIN
+			(
+			SELECT car_num AS t2
+			FROM tcms_log 
+				WHERE 
+					snd_dt <![CDATA[ > ]]> CONCAT(CURDATE()," ","03:00:00")
+					AND snd_dt<![CDATA[ < ]]> CONCAT(CURDATE()," ","02:59:59") + INTERVAL 1 DAY 
+				AND car_num IN 
+				(SELECT train_num FROM tcms_info GROUP BY train_num ORDER BY idx) 
+			GROUP BY car_num ORDER BY car_num
+			) B
+		ON (A.t1=B.t2)
+		ORDER BY IDX ASC
+	</select>
+
+	<!-- 차상단말기 등록 -->
+	<insert id="terminalInsert" parameterType="terminalVO">
+		INSERT INTO TCMS_INFO(
+			TRAIN_NUM
+			,IDX	
+			,F_IP
+			,T_IP
+			,CAR_CNT 
+		)
+		VALUES (
+			 #{trainNum}
+			,(SELECT (MAX(IDX)+1) AS idx FROM TCMS_INFO ALIAS_FOR_SUBQUERY)
+			,#{fIp}
+			,#{tIp}
+			,#{carCnt}
+		)
+	</insert>
+	
+	<!-- 차상단말기 정보 수정-->
+	<update id="terminalUpdate" parameterType="terminalVO">
+		UPDATE TCMS_INFO
+		SET
+			TRAIN_NUM     =  #{trainNum}
+			,F_IP         =  #{fIp}
+			,T_IP         =  #{tIp}
+			,CAR_CNT      =  #{carCnt}
+			,RACE_YN      =  #{raceYn}
+		WHERE TRAIN_NUM   =  #{trainNum}
+	</update>
+	
+	<!-- 차상단말기 삭제 -->
+	<delete id="terminalDelete">
+		DELETE FROM TCMS_INFO 
+		WHERE TRAIN_NUM IN
+		<foreach collection="chkList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+	</delete>
+		
+	<!-- 순번 초기화 : db 설정시 auto increment 항목(idx)을 unique가 아닌 primary로 지정해야 함-->
+	<update id="idxAutoIncrement">
+		ALTER TABLE TCMS_INFO AUTO_INCREMENT=1;
+		SET @COUNT = 0;
+		UPDATE TCMS_INFO SET idx = @COUNT:=@COUNT+1;
+	</update>
+	
+	<!-- 직통/일반 목록-->
+	<resultMap type="directRegularVo" id="selectDrtRgr">
+		<result property="carType"  column=	"CAR_TYPE"/>
+		<result property="st_wgt_1"   column=	"ST_WGT_1"/>
+		<result property="st_wgt_2"   column=	"ST_WGT_2"/>
+		<result property="st_wgt_3"   column=	"ST_WGT_3"/>
+		<result property="st_wgt_4"   column=	"ST_WGT_4"/>
+		<result property="st_wgt_5"   column=	"ST_WGT_5"/>
+		<result property="st_wgt_6"	column=	"ST_WGT_6"/>
+	</resultMap>
+	<select id="selectDrtRgr" parameterType="directRegularVo" resultMap="selectDrtRgr">
+		SELECT 
+			 CASE WHEN CAR_TYPE=1 THEN "직통열차"
+			 	  ELSE "일반열차" END AS CAR_TYPE
+			,ST_WGT_1
+			,ST_WGT_2
+			,ST_WGT_3
+			,ST_WGT_4
+			,ST_WGT_5
+			,ST_WGT_6
+		FROM
+			ASP_INFO
+			WHERE 1=1
+			<if test="carType !=null and carType neq ''"> 
+				<choose>
+				    <when test="carType !=null and carType eq '직통열차'">
+				        AND CAR_TYPE=1
+				    </when>
+				    <otherwise>
+				        AND CAR_TYPE=2
+		    		</otherwise>
+				</choose>
+			</if>
+		ORDER BY CAR_TYPE DESC
+	</select>
+	
+	<!-- 직통/일반 수정-->
+	<update id="drtRgrUpdate" parameterType="directRegularVo">
+		UPDATE ASP_INFO
+		SET
+			 ST_WGT_1=#{st_wgt_1}
+	        ,ST_WGT_2=#{st_wgt_2}
+	        ,ST_WGT_3=#{st_wgt_3}
+	        ,ST_WGT_4=#{st_wgt_4}
+	        ,ST_WGT_5=#{st_wgt_5}
+	        ,ST_WGT_6=#{st_wgt_6}
+		WHERE 1=1
+		<choose>
+		    <when test="carType !=null and carType eq '직통열차'">
+		        AND CAR_TYPE=1
+		    </when>
+		    <otherwise>
+		        AND CAR_TYPE=2
+		    </otherwise>
+		</choose>
+	</update>
+	
+	<!-- 직통/일반 목록-->
+	<resultMap type="keyMapVo" id="findComm">
+		<result property="setNameKey"    column="name_key"/>
+		<result property="setValValue"   column="val"/>
+	</resultMap>
+	<select id="findComm"  resultMap="findComm">
+		SELECT
+		     column_name as name_key
+		    ,column_comment as val
+		FROM
+		    information_schema.columns
+		WHERE
+		    table_schema = 'ap_railroad' AND table_name = 'asp_info'
+		AND column_name IN
+		<foreach collection="chkList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach> 
+	</select>
+	
+	<!-- 이벤트 로그 등록 -->
+	<insert id="insertDREvtLog" parameterType="eventLogVO">
+		INSERT INTO EVENT_LOG(
+			 EVT_TIME
+			,EVT_NAME
+			,EVT_NUM
+			,EVT_TGT
+			,COMMENT
+		)
+		VALUES (
+			 NOW()
+			,#{evtName}
+			,1
+			,#{evtTgt}
+			,#{comment}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.wizbrain.apRailroad.comuFail.mapper.ComuFailMapper">
+	<!-- 수정일 수정자 수정내용 ========= ======= ================================================= 
+		2020.07.23 정다빈 최초 생성 -->
+
+
+	<!-- 전체 또는 특정 사용자 조회 -->
+	<resultMap type="comuFailVO" id="selectComuFailList">
+		<result property="evtTime" column="EVT_TIME" />
+		<result property="evtName" column="EVT_NAME" />
+		<result property="evtNum" column="EVT_NUM" />
+		<result property="evtTgt" column="EVT_TGT" />
+		<result property="comment" column="COMMENT" />
+	</resultMap>
+	<select id="selectComuFailList" parameterType="comuFailVO"
+		resultMap="selectComuFailList">
+		SELECT
+			DATE_FORMAT(EVT_TIME,'%Y-%m-%d') AS EVT_TIME
+			,EVT_NAME
+			,EVT_NUM
+			,EVT_TGT
+			,COMMENT
+		FROM
+			EVENT_LOG
+		ORDER BY EVT_TIME DESC
+	</select>
+
+</mapper>

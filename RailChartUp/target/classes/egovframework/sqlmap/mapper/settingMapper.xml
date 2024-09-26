@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.wizbrain.apRailroad.setting.mapper.SettingMapper">
+<!-- 
+수정일           수정자         수정내용 
+========= ======= ================================================= 
+2020.08.26 정다빈     최초 생성 
+-->
+		
+	<!-- 시간 기간 범위 목록 화면 -->
+	<resultMap type="timeRangeVO" id="timeRangeList">
+		<result property="goworkSt"		column="goworkSt"	/>
+		<result property="goworkEd"     column="goworkEd"	/>
+		<result property="daySt"        column="daySt"   	/>
+		<result property="dayEd"        column="dayEd"   	/>
+		<result property="gohomeSt"     column="gohomeSt"	/>
+		<result property="gohomeEd"     column="gohomeEd"	/>
+		<result property="nightSt"      column="nightSt" 	/>
+		<result property="nightEd"	    column="nightEd"	/>
+		<result property="springSt"     column="springSt"	/>
+		<result property="springEd"     column="springEd"	/>
+		<result property="summerSt"	    column="summerSt"	/>
+		<result property="summerEd"	    column="summerEd"	/>
+		<result property="autumnSt"	    column="autumnSt"	/>
+		<result property="autumnEd"	    column="autumnEd"	/>
+		<result property="winterSt"	    column="winterSt"	/>
+		<result property="winterEd"     column="winterEd"	/> 
+	</resultMap>
+	<select id="timeRangeList" resultMap="timeRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+			
+	<!-- 일일 혼잡도 범위 목록 -->
+	<resultMap type="dayCrowdRangeVO" id="dayCrowdRangeList">
+	    <result property="gwWgtRlxDv"	 column="gwWgtRlxDv"	/>
+		<result property="gwWgtUsDv"  	 column="gwWgtUsDv"	/>
+		<result property="gwWgtCauDv"   column="gwWgtCauDv" 	/>
+		<result property="gwWgtCwdDv"   column="gwWgtCwdDv" 	/>
+		<result property="gwWgtMargin"   column="gwWgtMargin" 	/>
+		
+		<result property="ghWgtRlxDv"	 column="ghWgtRlxDv"	/>
+		<result property="ghWgtUsDv"  	 column="ghWgtUsDv"	/>
+		<result property="ghWgtCauDv"   column="ghWgtCauDv" 	/>
+		<result property="ghWgtCwdDv"   column="ghWgtCwdDv" 	/>
+		<result property="ghWgtMargin"   column="ghWgtMargin" 	/>
+		
+		<result property="dayWgtRlxDv"	 column="dayWgtRlxDv"	/>
+		<result property="dayWgtUsDv"  	 column="dayWgtUsDv"	/>
+		<result property="dayWgtCauDv"   column="dayWgtCauDv" 	/>
+		<result property="dayWgtCwdDv"   column="dayWgtCwdDv" 	/>
+		<result property="dayWgtMargin"   column="dayWgtMargin" 	/>
+	</resultMap>
+	<select id="dayCrowdRangeList" resultMap="dayCrowdRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+			
+	<!-- 월별 혼잡도 범위 목록 -->
+	<resultMap type="monCrowdRangeVO" id="monCrowdRangeList">
+		<result property="monWgtRlxDv"	 column="monWgtRlxDv"	/>
+		<result property="monWgtUsDv"  	 column="monWgtUsDv"	/>
+		<result property="monWgtCauDv"   column="monWgtCauDv" 	/>
+		<result property="monWgtCwdDv"   column="monWgtCwdDv" 	/>
+		<result property="monWgtMargin"   column="monWgtMargin" 	/>
+	</resultMap>
+	<select id="monCrowdRangeList" resultMap="monCrowdRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+			
+	<!-- 연도별 혼잡도 범위 목록 -->
+	<resultMap type="yearCrowdRangeVO" id="yearCrowdRangeList">
+		<result property="yearWgtRlxDv"	 column="yearWgtRlxDv"	/>
+		<result property="yearWgtUsDv"  	 column="yearWgtUsDv"	/>
+		<result property="yearWgtCauDv"   column="yearWgtCauDv" 	/>
+		<result property="yearWgtCwdDv"   column="yearWgtCwdDv" 	/>
+		<result property="yearWgtMargin"   column="yearWgtMargin" 	/>
+	</resultMap>
+	<select id="yearCrowdRangeList" resultMap="yearCrowdRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+	
+	<!-- 계절별 혼잡도 범위 목록 -->
+	<resultMap type="seaCrowdRangeVO" id="seaCrowdRangeList">
+		<result property="seaWgtRlxDv"	 column="seaWgtRlxDv"	/>
+		<result property="seaWgtUsDv"  	 column="seaWgtUsDv"	/>
+		<result property="seaWgtCauDv"   column="seaWgtCauDv" 	/>
+		<result property="seaWgtCwdDv"   column="seaWgtCwdDv" 	/>
+		<result property="seaWgtMargin"   column="seaWgtMargin" 	/>
+	</resultMap>
+	<select id="seaCrowdRangeList" resultMap="seaCrowdRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+	
+	<!-- 월간일별 혼잡도 범위 목록 -->
+	<resultMap type="MdCrowdRangeVO" id="mdCrowdRangeList">
+		<result property="mdWgtRlxDv"	 column="mdWgtRlxDv"	/>
+		<result property="mdWgtUsDv"  	 column="mdWgtUsDv"	/>
+		<result property="mdWgtCauDv"   column="mdWgtCauDv" 	/>
+		<result property="mdWgtCwdDv"   column="mdWgtCwdDv" 	/>
+		<result property="mdWgtMargin"   column="mdWgtMargin" 	/>
+	</resultMap>
+	<select id="mdCrowdRangeList" resultMap="mdCrowdRangeList">
+	    SELECT
+	    <foreach collection="chkList" item="item" index="index" separator=",">
+			(SELECT SET_VAL FROM CONFIG_INFO WHERE SET_NAME=#{item}) AS #{item}
+        </foreach>
+        FROM DUAL
+	</select>
+			
+	<!-- 시간 기간 범위 수정 화면 -->
+	<update id="settingUpdate">
+		<foreach collection="chkList" item="item" index="index" separator=";">
+		    UPDATE config_info SET set_val=#{item.setValValue} WHERE set_name=#{item.setNameKey}    
+        </foreach>
+	</update>
+			
+	<!-- 혼잡도 범위 변경 일괄 적용 -->
+	<update id="settingUpdateAll">
+		<foreach collection="chkList" item="item" index="index" separator=";">
+		    UPDATE config_info SET set_val = #{item.setValValue}
+			WHERE set_name IN 
+			(SELECT set_name FROM config_info 
+				WHERE set_name LIKE 
+				CONCAT('%',SUBSTRING_INDEX(#{item.setNameKey},'Wgt',-1),'%')
+			)    
+        </foreach>
+	</update>
+		
+	<!-- 월간일별 혼잡도 범위 목록 -->
+	<resultMap type="settingVO" id="chUpList">
+		<result property="comment"	column="COMM"	/>
+		<result property="setVal"  	column="SET_VAL"	/>
+	</resultMap>
+	<select id="chUpList" resultMap="chUpList">
+	    SELECT 
+			RIGHT(COMMENT,10)AS COMM
+			,set_val 
+		FROM config_info
+		WHERE SET_NAME IN
+		<foreach collection="chkList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+		GROUP BY COMM
+		ORDER BY SET_VAL ASC
+	</select>
+	
+	<!-- 이벤트 로그 등록 -->
+	<insert id="insertEvtLog" parameterType="eventLogVO">
+		INSERT INTO EVENT_LOG(
+			 EVT_TIME
+			,EVT_NAME
+			,EVT_NUM
+			,EVT_TGT
+			,COMMENT
+		)
+		VALUES (
+			 NOW()
+			,#{evtName}
+			,1
+			,#{evtTgt}
+			,#{comment}
+		)
+	</insert>
+</mapper>

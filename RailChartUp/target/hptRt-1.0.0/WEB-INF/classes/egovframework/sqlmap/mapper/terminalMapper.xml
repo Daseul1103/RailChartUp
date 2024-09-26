@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.wizbrain.apRailroad.terminal.mapper.TerminalMapper">
+<!-- 
+수정일           수정자         수정내용 
+========= ======= ================================================= 
+2020.07.23 정다빈     최초 생성 
+-->
+
+	<!-- 전체 또는 특정 차상단말기 조회 -->
+	<resultMap type="terminalVO" id="selectTerminal">
+		<result property="idx" 		column=	"IDX"	/>
+		<result property="trainNum"	column=	"TRAIN_NUM"	/>
+		<result property="fIp" 		column=	"F_IP" />
+		<result property="tIp" 		column=	"T_IP" />
+		<result property="carCnt" 	column=	"CAR_CNT" />
+		<result property="raceYn" 	column=	"RACE_YN"/>
+	</resultMap>
+	<select id="selectTerminal" parameterType="terminalVO" resultMap="selectTerminal">
+		SELECT 
+			 IDX	
+			,TRAIN_NUM	
+			,F_IP
+			,T_IP
+			,CAR_CNT 
+			,if(RACE_YN="Y","운행중","미운행")as RACE_YN
+		FROM
+			TCMS_INFO
+			WHERE 1=1
+			<if test="trainNum !=null"> 
+				AND TRAIN_NUM=#{trainNum}
+			</if>
+		ORDER BY IDX
+	</select>
+
+	<!-- 차상단말기 등록 -->
+	<insert id="terminalInsert" parameterType="terminalVO">
+		INSERT INTO TCMS_INFO(
+			TRAIN_NUM
+			,IDX	
+			,F_IP
+			,T_IP
+			,CAR_CNT 
+			,RACE_YN
+		)
+		VALUES (
+			 #{trainNum}
+			,(SELECT (MAX(IDX)+1) AS idx FROM TCMS_INFO ALIAS_FOR_SUBQUERY)
+			,#{fIp}
+			,#{tIp}
+			,#{carCnt}
+			,#{raceYn}
+		)
+	</insert>
+	
+	<!-- 차상단말기 정보 수정-->
+	<update id="terminalUpdate" parameterType="terminalVO">
+		UPDATE TCMS_INFO
+		SET
+			TRAIN_NUM    =  #{trainNum}
+			,F_IP         =  #{fIp}
+			,T_IP         =  #{tIp}
+			,CAR_CNT      =  #{carCnt}
+			,RACE_YN      =  #{raceYn}
+		WHERE TRAIN_NUM   =  #{trainNum}
+	</update>
+	
+	<!-- 차상단말기 삭제 -->
+	<delete id="terminalDelete">
+		DELETE FROM TCMS_INFO 
+		WHERE TRAIN_NUM IN
+		<foreach collection="chkList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+	</delete>
+
+		
+	<!-- 순번 초기화 : db 설정시 auto increment 항목(idx)을 unique가 아닌 primary로 지정해야 함-->
+	<update id="idxAutoIncrement">
+		ALTER TABLE TCMS_INFO AUTO_INCREMENT=1;
+		SET @COUNT = 0;
+		UPDATE TCMS_INFO SET idx = @COUNT:=@COUNT+1;
+	</update>
+	
+</mapper>

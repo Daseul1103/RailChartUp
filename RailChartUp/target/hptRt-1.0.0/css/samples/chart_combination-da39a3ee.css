@@ -1,0 +1,44 @@
+.c3-target-1호차{
+	display:none;
+}
+
+.c3-target-2호차{
+	display:none;
+}
+.c3-target-3호차{
+	display:none;
+}
+.c3-target-4호차{
+	display:none;
+}
+.c3-target-5호차{
+	display:none;
+}
+.c3-target-6호차{
+	display:none;
+}
+.c3-legend-item-1호차{
+	display:none;
+}
+
+.c3-legend-item-2호차{
+	display:none;
+}
+
+.c3-legend-item-3호차{
+	display:none;
+}
+.c3-legend-item-4호차{
+	display:none;
+}
+.c3-legend-item-5호차{
+	display:none;
+}
+.c3-legend-item-6호차{
+	display:none;
+}
+
+
+.c3-text .c3-texts .c3-text text {
+  transform: translate(-100px, 0);
+}

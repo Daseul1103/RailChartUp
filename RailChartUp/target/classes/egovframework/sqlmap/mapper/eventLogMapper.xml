@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.wizbrain.apRailroad.eventLog.mapper.EventLogMapper">
+
+<!-- 
+수정일           수정자         수정내용 
+========= ======= ================================================= 
+2020.07.23 정다빈     최초 생성 
+-->
+
+	<!-- 이벤트 로그  조회 -->
+	<resultMap type="eventLogVO" id="selectEventLogList">
+		<result property="evtTime" column="EVT_TIME" />
+		<result property="evtName" column="EVT_NAME" />
+		<result property="evtNum"  column="EVT_NUM" />
+		<result property="evtTgt"  column="EVT_TGT" />
+		<result property="comment" column="COMMENT" />
+	</resultMap>
+	<select id="selectEventLogList" parameterType="eventLogVO"
+		resultMap="selectEventLogList">
+		SELECT
+			 DATE_FORMAT(EVT_TIME,'%Y-%m-%d %H:%i:%s') AS EVT_TIME
+			,EVT_NAME
+			,IF(EVT_NUM=1,"WEB","APP") AS EVT_NUM
+			,EVT_TGT
+			<!-- ,REPLACE(comment, "/", "<![CDATA[<]]>br<![CDATA[>]]>") AS COMMENT -->
+			,COMMENT
+		FROM
+			EVENT_LOG
+		ORDER BY EVT_TIME DESC
+	</select>
+
+	<!-- tcms 로그 조회 -->
+	<resultMap type="tcmsRcvVO" id="selectTcmsRcvList">
+		<result property="sndDt" column="SND_DT"/>
+		<result property="trainNum" column="TRAIN_NUM"/>
+		<result property="carNum" column="CAR_NUM"/>
+		<result property="rcvDt" column="RCV_DT"/>
+		<result property="trainType" column="TRAIN_TYPE"/>
+		<result property="trainDirect" column="TRAIN_DIRECT"/>
+		<result property="carWgt1" column="CAR_WGT_1"/>
+		<result property="carWgt2" column="CAR_WGT_2"/>
+		<result property="carWgt3" column="CAR_WGT_3"/>
+		<result property="carWgt4" column="CAR_WGT_4"/>
+		<result property="carWgt5" column="CAR_WGT_5"/>
+		<result property="carWgt6" column="CAR_WGT_6"/>
+		<result property="carWgt7" column="CAR_WGT_7"/>
+		<result property="carWgt8" column="CAR_WGT_8"/>	
+	</resultMap>
+	<select id="selectTcmsRcvList" parameterType="java.lang.String" resultMap="selectTcmsRcvList">
+		SELECT
+			 DATE_FORMAT(SND_DT,'%Y-%m-%d %H:%i:%s') AS SND_DT
+			,TRAIN_NUM 		
+			,CAR_NUM 		
+			,DATE_FORMAT(RCV_DT,'%Y-%m-%d %H:%i:%s') AS RCV_DT		
+			,TRAIN_TYPE
+			,case
+				when TRAIN_DIRECT=1 then "전방(1)"
+				when TRAIN_DIRECT=6 then "후방(6)"
+				ELSE TRAIN_DIRECT END
+		    AS TRAIN_DIRECT	
+			,CAR_WGT_1		
+			,CAR_WGT_2		
+			,CAR_WGT_3		
+			,CAR_WGT_4		
+			,CAR_WGT_5		
+			,CAR_WGT_6		
+			,CAR_WGT_7		
+			,CAR_WGT_8
+		FROM
+			TCMS_LOG
+		WHERE SND_DT <![CDATA[ > ]]> #{sDate} 
+		AND SND_DT <![CDATA[ < ]]> DATE_ADD( #{sDate},INTERVAL 1 day)
+		<if test='tagId neq "1"'>
+		   	AND CAR_NUM=#{tagId}
+		</if>
+		ORDER BY SND_DT DESC
+	</select>
+
+	<!-- hse 로그 조회 -->
+	<resultMap type="hseSndVO" id="selectHseSndList">
+		<result property="sndDt" column="SND_DT"/>
+		<result property="trainNum" column="TRAIN_NUM"/>
+		<result property="carNum" column="CAR_NUM"/>
+		<result property="rcvDt" column="RCV_DT"/>
+		<result property="trainType" column="TRAIN_TYPE"/>
+		<result property="trainDirect" column="TRAIN_DIRECT"/>
+		<result property="avgCrwd" column="AVG_CRWD"/>
+		<result property="carWgt1" column="CAR_WGT_1"/>
+		<result property="carWgt2" column="CAR_WGT_2"/>
+		<result property="carWgt3" column="CAR_WGT_3"/>
+		<result property="carWgt4" column="CAR_WGT_4"/>
+		<result property="carWgt5" column="CAR_WGT_5"/>
+		<result property="carWgt6" column="CAR_WGT_6"/>
+		<result property="carWgt7" column="CAR_WGT_7"/>
+		<result property="carWgt8" column="CAR_WGT_8"/>
+	</resultMap>
+	<select id="selectHseSndList" parameterType="java.lang.String"
+		resultMap="selectHseSndList">
+		SELECT
+			 DATE_FORMAT(SND_DT,'%Y-%m-%d %H:%i:%s') AS SND_DT
+			,TRAIN_NUM 		
+			,CAR_NUM 		
+			,DATE_FORMAT(RCV_DT,'%Y-%m-%d %H:%i:%s') AS RCV_DT			
+			,TRAIN_TYPE 	
+			,case
+				when TRAIN_DIRECT=1 then "전방(1)"
+				when TRAIN_DIRECT=6 then "후방(6)"
+				ELSE TRAIN_DIRECT END
+		    AS TRAIN_DIRECT		
+			,AVG_CRWD	
+			,CAR_WGT_1		
+			,CAR_WGT_2		
+			,CAR_WGT_3		
+			,CAR_WGT_4		
+			,CAR_WGT_5		
+			,CAR_WGT_6		
+			,CAR_WGT_7		
+			,CAR_WGT_8
+		FROM
+			CONG_LOG
+		WHERE SND_DT <![CDATA[ > ]]> #{sDate} 
+		AND SND_DT <![CDATA[ < ]]> DATE_ADD( #{sDate},INTERVAL 1 day)
+		<if test='tagId neq "1"'>
+		   	AND CAR_NUM=#{tagId}
+		</if>
+		ORDER BY SND_DT DESC
+	</select>
+	
+	
+	<!-- 이벤트 로그  조회 -->
+	<resultMap type="eventLogVO" id="selectEventLog">
+		<result property="evtTime" column="EVT_TIME" />
+		<result property="evtName" column="EVT_NAME" />
+		<result property="evtNum"  column="EVT_NUM" />
+		<result property="evtTgt"  column="EVT_TGT" />
+		<result property="comment" column="COMMENT" />
+	</resultMap>
+	<select id="selectEventLog" parameterType="eventLogVO"
+		resultMap="selectEventLog">
+		SELECT
+			 DATE_FORMAT(EVT_TIME,'%Y-%m-%d %H:%i:%s') AS EVT_TIME
+			,EVT_NAME
+			,IF(EVT_NUM=1,"WEB","APP") AS EVT_NUM
+			,EVT_TGT
+			<!-- ,REPLACE(comment, "/", "<![CDATA[<]]>br<![CDATA[>]]>") AS COMMENT -->
+			,COMMENT
+		FROM
+			EVENT_LOG
+		WHERE 1=1
+		AND
+		EVT_TIME=#{evtTime}
+	</select>
+
+</mapper>

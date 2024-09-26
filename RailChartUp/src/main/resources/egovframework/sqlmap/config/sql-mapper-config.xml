@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- jdb : 쿼리에 맞는 vo 설정 -->
+	<typeAliases>
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap" />    
+		<typeAlias alias="mainVO" type="kr.co.wizbrain.apRailroad.main.vo.MainVO" />    
+		<typeAlias alias="statisticVO" type="kr.co.wizbrain.apRailroad.statistic.vo.StatisticVO" />    
+		<typeAlias alias="ChkDateVO" type="kr.co.wizbrain.apRailroad.statistic.vo.ChkDateVO" />    
+		<typeAlias alias="logDataVO" type="kr.co.wizbrain.apRailroad.statistic.vo.LogDataVO" />    
+		<typeAlias alias="mainStVo" type="kr.co.wizbrain.apRailroad.statistic.vo.MainStVo" />    
+		<typeAlias alias="eventLogVO" type="kr.co.wizbrain.apRailroad.eventLog.vo.EventLogVO" />    
+		<typeAlias alias="tcmsRcvVO" type="kr.co.wizbrain.apRailroad.eventLog.vo.TcmsRcvVO" />    
+		<typeAlias alias="hseSndVO" type="kr.co.wizbrain.apRailroad.eventLog.vo.HseSndVO" />    
+		<typeAlias alias="terminalVO" type="kr.co.wizbrain.apRailroad.terminal.vo.TerminalVO" />    
+		<typeAlias alias="userVO" type="kr.co.wizbrain.apRailroad.user.vo.UserVO" />    
+		<typeAlias alias="settingVO" type="kr.co.wizbrain.apRailroad.setting.vo.SettingVO" />    
+		<typeAlias alias="dayCrowdRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.DayCrowdRangeVO" />    
+		<typeAlias alias="monCrowdRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.MonCrowdRangeVO" />    
+		<typeAlias alias="yearCrowdRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.YearCrowdRangeVO" />    
+		<typeAlias alias="seaCrowdRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.SeaCrowdRangeVO" />    
+		<typeAlias alias="mdCrowdRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.MdCrowdRangeVO" />    
+		<typeAlias alias="timeRangeVO" type="kr.co.wizbrain.apRailroad.setting.vo.TimeRangeVO" />    
+		<typeAlias alias="keyMapVo" type="kr.co.wizbrain.apRailroad.comm.KeyMapVo" />    
+		<typeAlias alias="directRegularVo" type="kr.co.wizbrain.apRailroad.terminal.vo.DirectRegularVO" />    
+		<typeAlias alias="ScatterVO" type="kr.co.wizbrain.apRailroad.statistic.vo.ScatterVO" />    
+		<typeAlias alias="StkAreaVO" type="kr.co.wizbrain.apRailroad.statistic.vo.StkAreaVO" />    
+		<typeAlias alias="list" type="java.util.List" />
+		<typeAlias alias="map" type="java.util.Map" />
+	</typeAliases>
+	<!-- jdb : 사용하려는 *mapper.xml 등록 -->
+	<mappers>
+        <mapper resource="egovframework/sqlmap/mapper/mainMapper.xml" />
+        <mapper resource="egovframework/sqlmap/mapper/statisticMapper.xml" />
+        <mapper resource="egovframework/sqlmap/mapper/eventLogMapper.xml" />
+        <mapper resource="egovframework/sqlmap/mapper/terminalMapper.xml" />
+        <mapper resource="egovframework/sqlmap/mapper/userMapper.xml" />
+        <mapper resource="egovframework/sqlmap/mapper/settingMapper.xml" />
+   </mappers> 
+ 
+</configuration>

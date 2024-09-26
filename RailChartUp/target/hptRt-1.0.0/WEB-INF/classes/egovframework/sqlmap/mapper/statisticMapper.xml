@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.wizbrain.apRailroad.statistic.mapper.StatisticMapper">
+<!-- 
+수정일           수정자         수정내용 
+========= ======= ================================================= 
+2020.07.23 정다빈     최초 생성 
+-->
+
+
+	<!-- 전/금일 주의 혼잡 -->
+	<resultMap type="mainStVo" id="mainYesToday">
+		<result property="trainNum"		column=	"TRAIN_NUM"	/>
+		<result property="c1Res"		column=	"C1_RES"	/>
+		<result property="c2Res"		column=	"C2_RES"	/>
+		<result property="c3Res"		column=	"C3_RES"	/>
+		<result property="c4Res"		column=	"C4_RES"	/>
+		<result property="c5Res"		column=	"C5_RES"	/>
+		<result property="c6Res"		column=	"C6_RES"	/>
+		<result property="c7Res"		column=	"C7_RES"	/>
+		<result property="c8Res"	    column=	"C8_RES"	/>
+		<result property="d1Res"		column=	"D1_RES"	/>
+		<result property="d2Res"		column=	"D2_RES"	/>
+		<result property="d3Res"		column=	"D3_RES"	/>
+		<result property="d4Res"		column=	"D4_RES"	/>
+		<result property="d5Res"		column=	"D5_RES"	/>
+		<result property="d6Res"		column=	"D6_RES"	/>
+		<result property="d7Res"		column=	"D7_RES"	/>
+		<result property="d8Res"	    column=	"D8_RES"	/>
+	</resultMap>
+	<select id="mainYesToday" parameterType="java.lang.String" resultMap="mainYesToday">
+		SELECT 
+			A.TRAIN_NUM,
+				case
+					when A.C1 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C1 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c1_res
+			   ,case
+					when A.C2 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C2 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c2_res
+			   ,case
+					when A.C3 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C3 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c3_res
+			   ,case
+					when A.C4 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C4 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c4_res
+			   ,case
+					when A.C5 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C5 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c5_res
+			   ,case
+					when A.C6 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C6 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c6_res
+			   ,case
+					when A.C7 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C7 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c7_res
+			   ,case
+					when A.C8 BETWEEN B.cauSt AND B.cauEd then "전일 주의"
+					when A.C8 BETWEEN B.cwdSt AND B.cwdEd then "전일 혼잡"
+					ELSE "없음" END
+			   AS c8_res
+		
+				,case
+					when D.D1 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D1 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d1_res
+			   ,case
+					when D.D2 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D2 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d2_res
+			   ,case
+					when D.D3 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D3 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d3_res
+			   ,case
+					when D.D4 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D4 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d4_res
+			   ,case
+					when D.D5 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D5 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d5_res
+			   ,case
+					when D.D6 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D6 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d6_res
+			   ,case
+					when D.D7 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D7 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d7_res
+			   ,case
+					when D.D8 BETWEEN B.cauSt AND B.cauEd then "금일 주의"
+					when D.D8 BETWEEN B.cwdSt AND B.cwdEd then "금일 혼잡"
+					ELSE "없음" END
+			   AS d8_res
+			FROM
+			(
+			SELECT 
+				BC.train_num
+				,ROUND(AVG(BC.car_wgt_1),-1) AS C1
+				,ROUND(AVG(BC.car_wgt_2),-1) AS C2
+				,ROUND(AVG(BC.car_wgt_3),-1) AS C3
+				,ROUND(AVG(BC.car_wgt_4),-1) AS C4
+				,ROUND(AVG(BC.car_wgt_5),-1) AS C5	
+				,ROUND(AVG(BC.car_wgt_6),-1) AS C6
+				,ROUND(AVG(BC.car_wgt_7),-1) AS C7
+				,ROUND(AVG(BC.car_wgt_8),-1) AS C8
+			FROM tcms_log BC,
+			(	SELECT 
+				CONCAT('2018-01-01'," ",DATE_SUB(CURTIME(),INTERVAL #{timeRange} MINUTE)) AS bfT
+				,CONCAT('2018-01-01'," ",CURTIME()) AS nowT
+				FROM DUAL
+			) tt
+			WHERE 1=1
+			AND 
+			snd_dt between tt.bfT AND tt.nowT
+			GROUP BY BC.train_num
+			) A,
+			(SELECT 
+				     CAST((SELECT set_val FROM config_info WHERE set_name='dayWgtCauSt') AS UNSIGNED) AS cauSt
+					,CAST((SELECT set_val FROM config_info WHERE set_name='dayWgtCauEd') AS UNSIGNED) AS cauEd
+					,CAST((SELECT set_val FROM config_info WHERE set_name='dayWgtCwdSt') AS UNSIGNED) AS cwdSt
+					,CAST((SELECT set_val FROM config_info WHERE set_name='dayWgtCwdEd') AS UNSIGNED) AS cwdEd
+				FROM DUAL
+			) B,
+			(
+			SELECT 
+				BC.train_num
+				,ROUND(AVG(BC.car_wgt_1),-1) AS D1
+				,ROUND(AVG(BC.car_wgt_2),-1) AS D2
+				,ROUND(AVG(BC.car_wgt_3),-1) AS D3
+				,ROUND(AVG(BC.car_wgt_4),-1) AS D4
+				,ROUND(AVG(BC.car_wgt_5),-1) AS D5	
+				,ROUND(AVG(BC.car_wgt_6),-1) AS D6
+				,ROUND(AVG(BC.car_wgt_7),-1) AS D7
+				,ROUND(AVG(BC.car_wgt_8),-1) AS D8
+			FROM tcms_log BC,
+			(	SELECT 
+				CONCAT('2018-01-02'," ",DATE_SUB(CURTIME(),INTERVAL #{timeRange} MINUTE)) AS bfT
+				,CONCAT('2018-01-02'," ",CURTIME()) AS nowT
+				FROM DUAL
+			) tt
+			WHERE 1=1
+			AND 
+			snd_dt between tt.bfT AND tt.nowT
+			GROUP BY BC.train_num
+			) D
+		WHERE a.train_num=d.train_num
+		ORDER BY TRAIN_NUM
+	</select>
+	
+	<!-- 단일편성 테이블 목록 -->
+	<resultMap type="terminalVO" id="trainTable">
+		<result property="idx" 		column=	"IDX"	/>
+		<result property="trainNum"	column=	"TRAIN_NUM"	/>
+		<result property="rst" 	column=	"RST"/>
+	</resultMap>
+	<select id="trainTable"  parameterType="java.lang.String" resultMap="trainTable">
+		SELECT 
+			case when idx<![CDATA[ < ]]>10 then 
+				CONCAT("#0",CAST(idx AS UNSIGNED))
+			ELSE 
+				CONCAT("#",CAST(idx AS UNSIGNED))
+			end as idx
+			,A.t1 AS train_num, B.t2
+			,if(B.t2 IN(A.t1),"Y","N") AS rst
+		FROM
+			(
+			SELECT idx,train_num AS t1 FROM tcms_info GROUP BY train_num ORDER BY idx ASC 
+			) A
+			LEFT OUTER JOIN
+			(
+			SELECT train_num AS t2
+			FROM tcms_log 
+				WHERE DATE_FORMAT(snd_dt,'%Y-%m-%d')=#{sdate} 
+				AND train_num IN 
+				(SELECT train_num FROM tcms_info GROUP BY train_num ORDER BY idx) 
+			GROUP BY train_num ORDER BY train_num
+			) B
+		ON (A.t1=B.t2)
+		ORDER BY RST DESC, IDX ASC
+	</select>
+	
+	
+	<!-- 일일 통계 -->
+	<resultMap type="statisticVO" id="dayTermByRange">
+	    <result property="title"		column=	"TITLE"	/>
+		<result property="rlxCnt"		column=	"RLX_CNT"	/>
+		<result property="usCnt"		column=	"US_CNT"	/>
+		<result property="careCnt"		column=	"CARE_CNT"	/>
+		<result property="cwdCnt"		column=	"CWD_CNT"	/>
+		<result property="avgCwd"		column=	"AVG_CWD"	/>
+		<result property="minCwd"		column=	"MIN_CWD"	/>
+		<result property="minDt"		column=	"MIN_DT"	/>
+		<result property="minCnum"	    column=	"MIN_CNUM"	/>
+		<result property="maxCwd"		column=	"MAX_CWD"	/>
+		<result property="maxDt"		column=	"MAX_DT"	/>
+		<result property="maxCnum"		column=	"MAX_CNUM"	/>
+	</resultMap>
+	<select id="dayTermByRange" parameterType="java.lang.String" resultMap="dayTermByRange">
+		WITH gw AS
+		(
+			SELECT A.* FROM 
+			day_crowd_cnt A,
+			(SELECT 
+				 STR_TO_DATE((SELECT set_val FROM config_info WHERE set_name = #{st}), '%T') AS st
+				,STR_TO_DATE((SELECT set_val FROM config_info WHERE set_name = #{ed}), '%T') AS ed
+			FROM DUAL
+			)B
+			WHERE A.snd_dt between CONCAT(#{sdate}," ",b.st) AND CONCAT(#{sdate}," ",b.ed)
+			<if test="trainNum !=null"> 
+				AND A.TNUM=#{trainNum}
+			</if>
+		)
+		SELECT
+			A.TITLE AS TITLE
+			,A.RLX_CNT AS RLX_CNT
+			,A.US_CNT AS US_CNT
+			,A.CARE_CNT AS CARE_CNT
+			,A.CWD_CNT AS CWD_CNT
+			,IFNULL(A.AVG_CWD	 , '데이터 없음' ) AS AVG_CWD
+			,IFNULL(A.MIN_CWD	 , '데이터 없음' ) AS MIN_CWD
+			,IFNULL(A.MIN_CNUM	 , '데이터 없음' ) AS MIN_CNUM
+			,IFNULL(A.MIN_DT	 , '데이터 없음' ) AS MIN_DT
+			,IFNULL(A.MAX_CWD	 , '데이터 없음' ) AS MAX_CWD
+			,IFNULL(A.MAX_CNUM	 , '데이터 없음' ) AS MAX_CNUM
+			,IFNULL(A.MAX_DT	 , '데이터 없음' ) AS MAX_DT
+		FROM 
+		(
+			SELECT
+				<choose>
+			        <when test="st == 'goworkSt'">"출근"</when>
+			        <when test="st == 'daySt'">"주간"</when>
+			        <when test="st == 'gohomeSt'">"퇴근"</when>
+			        <otherwise>"야간"</otherwise>
+			    </choose> AS TITLE
+				,COUNT(gw.c1_rlx)  + COUNT(gw.c2_rlx)  + COUNT(gw.c3_rlx)  + COUNT(gw.c4_rlx)  + COUNT(gw.c5_rlx)  + COUNT(gw.c6_rlx)  + COUNT(gw.c7_rlx)  + COUNT(gw.c8_rlx)  AS rlx_cnt
+				,COUNT(gw.c1_us)   + COUNT(gw.c2_us)   + COUNT(gw.c3_us)   + COUNT(gw.c4_us)   + COUNT(gw.c5_us)   + COUNT(gw.c6_us)   + COUNT(gw.c7_us)   + COUNT(gw.c8_us)   AS us_cnt
+				,COUNT(gw.c1_care) + COUNT(gw.c2_care) + COUNT(gw.c3_care) + COUNT(gw.c4_care) + COUNT(gw.c5_care) + COUNT(gw.c6_care) + COUNT(gw.c7_care) + COUNT(gw.c8_care) AS care_cnt
+				,COUNT(gw.c1_cwd)  + COUNT(gw.c2_cwd)  + COUNT(gw.c3_cwd)  + COUNT(gw.c4_cwd)  + COUNT(gw.c5_cwd)  + COUNT(gw.c6_cwd)  + COUNT(gw.c7_cwd)  + COUNT(gw.c8_cwd)  AS cwd_cnt
+				,ROUND(AVG(gw.avg_cwd),-1) AS avg_cwd
+				,MIN(smin.min_cwd) AS min_cwd
+				,DATE_FORMAT(smin.snd_dt ,'%Y-%m-%d %H:%i:%s') AS min_dt
+				,smin.cnum AS min_cnum
+				,MAX(smax.max_cwd) AS max_cwd
+				,DATE_FORMAT(smax.snd_dt ,'%Y-%m-%d %H:%i:%s') AS max_dt
+				,smax.cnum AS max_cnum
+			FROM gw,
+				(SELECT * FROM gw ORDER BY min_cwd ASC, snd_dt DESC LIMIT 1) smin,
+				(SELECT * FROM gw order BY max_cwd DESC, snd_dt DESC LIMIT 1) smax
+		)A
+	</select>
+		
+	
+	<!-- 월별 통계1 -->
+	<resultMap type="statisticVO" id="monTermByRange1">
+	    <result property="title"		column=	"TITLE"	/>
+		<result property="rlxCnt"		column=	"RLX_CNT"	/>
+		<result property="usCnt"		column=	"US_CNT"	/>
+		<result property="careCnt"		column=	"CARE_CNT"	/>
+		<result property="cwdCnt"		column=	"CWD_CNT"	/>
+		<result property="avgCwd"		column=	"AVG_CWD"	/>
+		<result property="minCwd"		column=	"MIN_CWD"	/>
+		<result property="minDt"		column=	"MIN_DT"	/>
+		<result property="minCnum"	    column=	"MIN_CNUM"	/>
+		<result property="maxCwd"		column=	"MAX_CWD"	/>
+		<result property="maxDt"		column=	"MAX_DT"	/>
+		<result property="maxCnum"		column=	"MAX_CNUM"	/>
+	</resultMap>
+	<select id="monTermByRange1" parameterType="java.lang.String" resultMap="monTermByRange1">
+		WITH mv AS(
+			SELECT 
+			YEAR(tt.snd_dt) AS yr,
+			MONTH(tt.snd_dt) AS mon,  
+			tt.*
+			FROM mon_crowd_cnt tt
+			WHERE YEAR(tt.snd_dt)=#{sdate}
+		)
+		SELECT 
+			@rownum:=mv.mon AS title
+		    ,COUNT(mv.c1_rlx)  + COUNT(mv.c2_rlx)  + COUNT(mv.c3_rlx)  + COUNT(mv.c4_rlx)  + COUNT(mv.c5_rlx)  + COUNT(mv.c6_rlx)  + COUNT(mv.c7_rlx)  + COUNT(mv.c8_rlx)  AS rlx_cnt
+			,COUNT(mv.c1_us)   + COUNT(mv.c2_us)   + COUNT(mv.c3_us)   + COUNT(mv.c4_us)   + COUNT(mv.c5_us)   + COUNT(mv.c6_us)   + COUNT(mv.c7_us)   + COUNT(mv.c8_us)   AS us_cnt
+			,COUNT(mv.c1_care) + COUNT(mv.c2_care) + COUNT(mv.c3_care) + COUNT(mv.c4_care) + COUNT(mv.c5_care) + COUNT(mv.c6_care) + COUNT(mv.c7_care) + COUNT(mv.c8_care) AS care_cnt
+			,COUNT(mv.c1_cwd)  + COUNT(mv.c2_cwd)  + COUNT(mv.c3_cwd)  + COUNT(mv.c4_cwd)  + COUNT(mv.c5_cwd)  + COUNT(mv.c6_cwd)  + COUNT(mv.c7_cwd)  + COUNT(mv.c8_cwd)  AS cwd_cnt
+			,ROUND(AVG(mv.avg_cwd),-1) AS avg_cwd
+			,MIN(mv.min_cwd) AS min_cwd
+			,(SELECT DATE_FORMAT(tt.snd_dt ,'%Y-%m-%d %H:%i:%s') FROM mv tt WHERE tt.mon = @rownum order by tt.min_cwd ASC, tt.snd_dt DESC limit 1) AS min_dt
+			,(SELECT tt.cnum FROM mv tt WHERE tt.mon = @rownum order by tt.min_cwd ASC, tt.snd_dt DESC limit 1) AS min_cnum
+			,MAX(mv.max_cwd) AS max_cwd 
+			,(SELECT DATE_FORMAT(tt.snd_dt ,'%Y-%m-%d %H:%i:%s') FROM mv tt WHERE tt.mon = @rownum order by tt.max_cwd DESC, tt.snd_dt DESC limit 1) AS max_dt
+			,(SELECT tt.cnum FROM mv tt WHERE tt.mon = @rownum order by tt.max_cwd DESC, tt.snd_dt DESC limit 1) AS max_cnum
+		FROM mv
+		GROUP BY mv.mon ASC
+	</select>
+	
+	<!-- 월별 통계2 -->
+	<resultMap type="statisticVO" id="monTermByRange2">
+	    <result property="title"		column=	"TITLE"	/>
+		<result property="rlxCnt"		column=	"RLX_CNT"	/>
+		<result property="usCnt"		column=	"US_CNT"	/>
+		<result property="careCnt"		column=	"CARE_CNT"	/>
+		<result property="cwdCnt"		column=	"CWD_CNT"	/>
+		<result property="avgCwd"		column=	"AVG_CWD"	/>
+		<result property="minCwd"		column=	"MIN_CWD"	/>
+		<result property="minDt"		column=	"MIN_DT"	/>
+		<result property="minCnum"	    column=	"MIN_CNUM"	/>
+		<result property="maxCwd"		column=	"MAX_CWD"	/>
+		<result property="maxDt"		column=	"MAX_DT"	/>
+		<result property="maxCnum"		column=	"MAX_CNUM"	/>
+	</resultMap>
+	<select id="monTermByRange2" parameterType="java.lang.String" resultMap="monTermByRange2">
+		WITH gw AS 
+		(
+			SELECT 
+			MONTH(tt.snd_dt) AS mon, tt.* FROM 
+			mon_crowd_cnt tt
+			WHERE DATE_FORMAT(tt.snd_dt,"%Y-%m")=#{sdate}
+		)
+		SELECT
+			#{tt} AS TITLE
+			,A.RLX_CNT AS RLX_CNT
+			,A.US_CNT AS US_CNT
+			,A.CARE_CNT AS CARE_CNT
+			,A.CWD_CNT AS CWD_CNT
+			,IFNULL(A.AVG_CWD	 , '데이터 없음' ) AS AVG_CWD
+			,IFNULL(A.MIN_CWD	 , '데이터 없음' ) AS MIN_CWD
+			,IFNULL(A.MIN_CNUM	 , '데이터 없음' ) AS MIN_CNUM
+			,IFNULL(A.MIN_DT	 , '데이터 없음' ) AS MIN_DT
+			,IFNULL(A.MAX_CWD	 , '데이터 없음' ) AS MAX_CWD
+			,IFNULL(A.MAX_CNUM	 , '데이터 없음' ) AS MAX_CNUM
+			,IFNULL(A.MAX_DT	 , '데이터 없음' ) AS MAX_DT
+		FROM 
+		(
+			SELECT 
+				COUNT(gw.c1_rlx)  + COUNT(gw.c2_rlx)  + COUNT(gw.c3_rlx)  + COUNT(gw.c4_rlx)  + COUNT(gw.c5_rlx)  + COUNT(gw.c6_rlx)  + COUNT(gw.c7_rlx)  + COUNT(gw.c8_rlx)  AS rlx_cnt
+				,COUNT(gw.c1_us)   + COUNT(gw.c2_us)   + COUNT(gw.c3_us)   + COUNT(gw.c4_us)   + COUNT(gw.c5_us)   + COUNT(gw.c6_us)   + COUNT(gw.c7_us)   + COUNT(gw.c8_us)   AS us_cnt
+				,COUNT(gw.c1_care) + COUNT(gw.c2_care) + COUNT(gw.c3_care) + COUNT(gw.c4_care) + COUNT(gw.c5_care) + COUNT(gw.c6_care) + COUNT(gw.c7_care) + COUNT(gw.c8_care) AS care_cnt
+				,COUNT(gw.c1_cwd)  + COUNT(gw.c2_cwd)  + COUNT(gw.c3_cwd)  + COUNT(gw.c4_cwd)  + COUNT(gw.c5_cwd)  + COUNT(gw.c6_cwd)  + COUNT(gw.c7_cwd)  + COUNT(gw.c8_cwd)  AS cwd_cnt
+				,ROUND(AVG(gw.avg_cwd),-1) AS avg_cwd
+				,MIN(gw.min_cwd) AS min_cwd
+				,smin.snd_dt AS min_dt
+				,smin.cnum AS min_cnum
+				,MAX(gw.max_cwd) AS max_cwd
+				,smax.snd_dt AS max_dt
+				,smax.cnum AS max_cnum
+			FROM gw,
+				(SELECT * FROM gw ORDER BY min_cwd ASC, snd_dt DESC LIMIT 1) smin,
+				(SELECT * FROM gw order BY max_cwd DESC, snd_dt DESC LIMIT 1) smax
+		) A
+	</select>	
+	
+	
+	<!--연간 통계 -->
+	<resultMap type="statisticVO" id="yearTermByRange">
+	    <result property="title"		column=	"TITLE"	/>
+		<result property="rlxCnt"		column=	"RLX_CNT"	/>
+		<result property="usCnt"		column=	"US_CNT"	/>
+		<result property="careCnt"		column=	"CARE_CNT"	/>
+		<result property="cwdCnt"		column=	"CWD_CNT"	/>
+		<result property="avgCwd"		column=	"AVG_CWD"	/>
+		<result property="minCwd"		column=	"MIN_CWD"	/>
+		<result property="minDt"		column=	"MIN_DT"	/>
+		<result property="minCnum"	    column=	"MIN_CNUM"	/>
+		<result property="maxCwd"		column=	"MAX_CWD"	/>
+		<result property="maxDt"		column=	"MAX_DT"	/>
+		<result property="maxCnum"		column=	"MAX_CNUM"	/>
+	</resultMap>
+	<select id="yearTermByRange" parameterType="java.lang.String" resultMap="yearTermByRange">
+		WITH gw AS(
+			SELECT 
+			YEAR(tt.snd_dt) AS yr,  
+			tt.*
+			FROM year_crowd_cnt tt
+			WHERE DATE_FORMAT(tt.snd_dt,"%Y")=#{sdate}
+		)
+		SELECT
+			#{sdate} AS TITLE
+			,A.RLX_CNT AS RLX_CNT
+			,A.US_CNT AS US_CNT
+			,A.CARE_CNT AS CARE_CNT
+			,A.CWD_CNT AS CWD_CNT
+			,IFNULL(A.AVG_CWD	 , '데이터 없음' ) AS AVG_CWD
+			,IFNULL(A.MIN_CWD	 , '데이터 없음' ) AS MIN_CWD
+			,IFNULL(A.MIN_CNUM	 , '데이터 없음' ) AS MIN_CNUM
+			,IFNULL(A.MIN_DT	 , '데이터 없음' ) AS MIN_DT
+			,IFNULL(A.MAX_CWD	 , '데이터 없음' ) AS MAX_CWD
+			,IFNULL(A.MAX_CNUM	 , '데이터 없음' ) AS MAX_CNUM
+			,IFNULL(A.MAX_DT	 , '데이터 없음' ) AS MAX_DT
+		FROM 
+		(
+			SELECT 
+				COUNT(gw.c1_rlx)  + COUNT(gw.c2_rlx)  + COUNT(gw.c3_rlx)  + COUNT(gw.c4_rlx)  + COUNT(gw.c5_rlx)  + COUNT(gw.c6_rlx)  + COUNT(gw.c7_rlx)  + COUNT(gw.c8_rlx)  AS rlx_cnt
+				,COUNT(gw.c1_us)   + COUNT(gw.c2_us)   + COUNT(gw.c3_us)   + COUNT(gw.c4_us)   + COUNT(gw.c5_us)   + COUNT(gw.c6_us)   + COUNT(gw.c7_us)   + COUNT(gw.c8_us)   AS us_cnt
+				,COUNT(gw.c1_care) + COUNT(gw.c2_care) + COUNT(gw.c3_care) + COUNT(gw.c4_care) + COUNT(gw.c5_care) + COUNT(gw.c6_care) + COUNT(gw.c7_care) + COUNT(gw.c8_care) AS care_cnt
+				,COUNT(gw.c1_cwd)  + COUNT(gw.c2_cwd)  + COUNT(gw.c3_cwd)  + COUNT(gw.c4_cwd)  + COUNT(gw.c5_cwd)  + COUNT(gw.c6_cwd)  + COUNT(gw.c7_cwd)  + COUNT(gw.c8_cwd)  AS cwd_cnt
+				,ROUND(AVG(gw.avg_cwd),-1) AS avg_cwd
+				,MIN(gw.min_cwd) AS min_cwd
+				,smin.snd_dt AS min_dt
+				,smin.cnum AS min_cnum
+				,MAX(gw.max_cwd) AS max_cwd
+				,smax.snd_dt AS max_dt
+				,smax.cnum AS max_cnum
+			FROM gw,
+				(SELECT * FROM gw ORDER BY min_cwd ASC, snd_dt DESC LIMIT 1) smin,
+				(SELECT * FROM gw order BY max_cwd DESC, snd_dt DESC LIMIT 1) smax
+		) A
+	</select>
+	
+	<!-- 계절별 통계 -->
+	<resultMap type="statisticVO" id="seaTermByRange">
+	    <result property="title"		column=	"TITLE"	/>
+		<result property="rlxCnt"		column=	"RLX_CNT"	/>
+		<result property="usCnt"		column=	"US_CNT"	/>
+		<result property="careCnt"		column=	"CARE_CNT"	/>
+		<result property="cwdCnt"		column=	"CWD_CNT"	/>
+		<result property="avgCwd"		column=	"AVG_CWD"	/>
+		<result property="minCwd"		column=	"MIN_CWD"	/>
+		<result property="minDt"		column=	"MIN_DT"	/>
+		<result property="minCnum"	    column=	"MIN_CNUM"	/>
+		<result property="maxCwd"		column=	"MAX_CWD"	/>
+		<result property="maxDt"		column=	"MAX_DT"	/>
+		<result property="maxCnum"		column=	"MAX_CNUM"	/>
+	</resultMap>
+	<select id="seaTermByRange" parameterType="java.lang.String" resultMap="seaTermByRange">
+		WITH gw AS
+		(
+			SELECT 
+				A.*
+			FROM 
+			(SELECT * FROM 
+			sea_crowd_cnt WHERE YEAR(snd_dt)=#{sdate}) A,
+			(SELECT 				
+				 CAST((SELECT set_val FROM config_info WHERE set_name = #{st}) AS SIGNED) AS st
+				,CAST((SELECT set_val FROM config_info WHERE set_name = #{ed}) AS SIGNED) AS ed
+			FROM DUAL
+			)b
+			WHERE 1=1
+			AND 
+			(
+				(b.ed-b.st <![CDATA[ > ]]> 0 AND MONTH(A.snd_dt) BETWEEN b.st AND b.ed)
+				OR
+				(b.ed-b.st <![CDATA[ <= ]]>  0 AND (MONTH(A.snd_dt) <![CDATA[ >= ]]> b.st or MONTH(A.snd_dt) <![CDATA[ <= ]]> b.ed))
+			)
+		)
+		
+		SELECT
+			A.TITLE AS TITLE
+			,IF(A.RLX_CNT=0		 , '데이터 없음' , A.RLX_CNT  ) AS RLX_CNT
+			,IF(A.US_CNT=0	 	 , '데이터 없음' , A.US_CNT   ) AS US_CNT
+			,IF(A.CARE_CNT=0 	 , '데이터 없음' , A.CARE_CNT ) AS CARE_CNT
+			,IF(A.CWD_CNT=0	 	 , '데이터 없음' , A.CWD_CNT  ) AS CWD_CNT
+			,IFNULL(A.AVG_CWD	 , '데이터 없음' ) AS AVG_CWD
+			,IFNULL(A.MIN_CWD	 , '데이터 없음' ) AS MIN_CWD
+			,IFNULL(A.MIN_DT	 , '데이터 없음' ) AS MIN_DT
+			,IFNULL(A.MIN_CNUM	 , '데이터 없음' ) AS MIN_CNUM
+			,IFNULL(A.MAX_CWD	 , '데이터 없음' ) AS MAX_CWD
+			,IFNULL(A.MAX_DT	 , '데이터 없음' ) AS MAX_DT
+			,IFNULL(A.MAX_CNUM	 , '데이터 없음' ) AS MAX_CNUM
+		FROM 
+		(
+			SELECT
+				<choose>
+			        <when test="st == 'springSt'">"봄"</when>
+			        <when test="st == 'summerSt'">"여름"</when>
+			        <when test="st == 'autumnSt'">"가을"</when>
+			        <otherwise>"겨울"</otherwise>
+			    </choose> AS TITLE
+				,COUNT(gw.c1_rlx)  + COUNT(gw.c2_rlx)  + COUNT(gw.c3_rlx)  + COUNT(gw.c4_rlx)  + COUNT(gw.c5_rlx)  + COUNT(gw.c6_rlx)  + COUNT(gw.c7_rlx)  + COUNT(gw.c8_rlx)  AS rlx_cnt
+				,COUNT(gw.c1_us)   + COUNT(gw.c2_us)   + COUNT(gw.c3_us)   + COUNT(gw.c4_us)   + COUNT(gw.c5_us)   + COUNT(gw.c6_us)   + COUNT(gw.c7_us)   + COUNT(gw.c8_us)   AS us_cnt
+				,COUNT(gw.c1_care) + COUNT(gw.c2_care) + COUNT(gw.c3_care) + COUNT(gw.c4_care) + COUNT(gw.c5_care) + COUNT(gw.c6_care) + COUNT(gw.c7_care) + COUNT(gw.c8_care) AS care_cnt
+				,COUNT(gw.c1_cwd)  + COUNT(gw.c2_cwd)  + COUNT(gw.c3_cwd)  + COUNT(gw.c4_cwd)  + COUNT(gw.c5_cwd)  + COUNT(gw.c6_cwd)  + COUNT(gw.c7_cwd)  + COUNT(gw.c8_cwd)  AS cwd_cnt
+				,ROUND(AVG(gw.avg_cwd),-1) AS avg_cwd
+				,MIN(smin.min_cwd) AS min_cwd
+				,DATE_FORMAT(smin.snd_dt ,'%Y-%m-%d %H:%i:%s') AS min_dt
+				,smin.cnum AS min_cnum
+				,MAX(smax.max_cwd) AS max_cwd
+				,DATE_FORMAT(smax.snd_dt ,'%Y-%m-%d %H:%i:%s') AS max_dt
+				,smax.cnum AS max_cnum
+			FROM gw,
+				(SELECT * FROM gw ORDER BY min_cwd ASC, snd_dt DESC LIMIT 1) smin,
+				(SELECT * FROM gw order BY max_cwd DESC, snd_dt DESC LIMIT 1) smax
+		)A
+	</select>
+		
+	<!-- 로그데이터 조회 -->
+	<resultMap type="logDataVO" id="dataLogList">
+		<result property="ldYear" 	column=	"LD_YEAR"/>
+		<result property="ldCnt"	column=	"LD_CNT" />
+		<result property="ldPer" 	column=	"LD_PER" />
+	</resultMap>
+	<select id="dataLogList"  resultMap="dataLogList">
+		SELECT 
+			 A.dt AS ld_year
+			,A.dt_cnt AS ld_cnt
+			,CONCAT(ROUND((A.dt_cnt/A.all_cnt)*100,2),"%") AS ld_per
+		FROM 
+		(
+			SELECT 
+				 YEAR(snd_dt) AS dt
+				,COUNT(snd_dt) AS dt_cnt 
+				,(SELECT COUNT(train_num) FROM tcms_log) AS all_cnt
+			FROM tcms_log 
+			GROUP BY YEAR(snd_dt)
+		) A
+	</select>
+	
+	<!-- 로그데이터 삭제 -->
+	<delete id="dataLogDelete">
+		DELETE FROM tcms_log 
+		WHERE YEAR(snd_dt) IN
+		<foreach collection="chkList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+	</delete>
+</mapper>
